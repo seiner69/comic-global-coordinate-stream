@@ -1,0 +1,14 @@
+{
+  "input_root": "./examples/input",
+  "output_root": "./work/canonical",
+  "chapters": ["ch_001"],
+  "extension": ".jpg",
+  "width": 690,
+  "width_policy": "strict",
+  "core_height": 6000,
+  "context": 3000,
+  "view_height": 12000,
+  "minimum_exact_duplicate_height": 48,
+  "preserve_all_pages": true,
+  "chapter_allowlist": ["ch_001"]
+}

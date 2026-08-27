@@ -1,0 +1,14 @@
+{
+  "profile": "official-jpg-native-690",
+  "chapters": {
+    "ch_001": {"input_count": 254, "stream_size": [690, 309614], "scan_count": 52, "boundary_tests": "253/253", "status": "PASS"},
+    "ch_002": {"input_count": 260, "stream_size": [690, 332709], "scan_count": 56, "boundary_tests": "259/259", "status": "PASS"},
+    "ch_003": {"input_count": 154, "stream_size": [690, 187322], "scan_count": 32, "boundary_tests": "153/153", "status": "PASS"},
+    "ch_004": {"input_count": 207, "stream_size": [690, 264399], "scan_count": 45, "boundary_tests": "206/206", "status": "PASS"},
+    "ch_005": {"input_count": 179, "stream_size": [690, 227924], "scan_count": 38, "boundary_tests": "178/178", "status": "PASS"}
+  },
+  "deleted_duplicate_boundaries": 0,
+  "core_coverage": "PASS",
+  "multi_source_pixel_match": "PASS",
+  "deterministic_rerun": "PASS"
+}

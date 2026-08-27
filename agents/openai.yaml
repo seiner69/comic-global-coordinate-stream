@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comic Global Coordinate Stream"
+  short_description: "Build deterministic comic coordinate streams"
+  default_prompt: "Use $comic-global-coordinate-stream to build and validate a deterministic global coordinate stream from sequential comic images."
