@@ -1,51 +1,51 @@
-# Comic Global Coordinate Stream
+# Comic Global Coordinate Stream（漫画全局坐标流）
 
-A Codex skill and Python toolkit for turning sequential comic or webtoon image slices into one deterministic global-Y coordinate system.
+这是一个 Codex Skill 与 Python 工具集，用于把按顺序保存的漫画或条漫切片转换成确定性的全局 Y 坐标系。
 
-It keeps three concerns separate:
+它把三个容易混淆的环节严格分开：
 
-- immutable source-image ownership;
-- overlapping reading scans for inspection;
-- exact final extraction from the mapped source pixels.
+- 原始图片像素的唯一归属；
+- 供人工检查使用、允许重叠的阅读扫描图；
+- 从来源像素精确重建的最终区域。
 
-## Why it exists
+## 为什么需要它
 
-Long comic chapters are commonly stored as hundreds of numbered images. Downstream editing becomes fragile when every crop is tied to a particular file. This project builds a continuous coordinate space across those files while preserving a source map, validating every boundary, and proving deterministic reruns.
+长篇漫画章节经常由数百张编号图片组成。如果每次裁切都绑定某一张文件，跨图画格、边界调整和重复执行很容易失控。本项目在保留完整来源映射的前提下，为所有切片建立连续坐标空间，并校验每个边界和重复运行结果。
 
-## Highlights
+## 主要能力
 
-- Strict numeric source discovery with gap detection
-- Optional width normalization without upscaling
-- Conservative exact-pixel boundary deduplication
-- Non-overlapping ownership cores plus contextual reading scans
-- Cross-source extraction using half-open global coordinates
-- Independent decoded-pixel audit
-- Deterministic synthetic smoke fixtures
+- 严格按数字顺序发现源文件，并检测编号缺口
+- 可选的宽度标准化，默认不放大小图
+- 基于解码像素的保守边界去重
+- 无重叠的像素归属核心区，以及带上下文的阅读扫描图
+- 使用半开区间全局坐标执行跨源提取
+- 独立的解码像素审计
+- 可重复运行的合成冒烟测试
 
-## Requirements
+## 前置条件
 
-- Python 3.10 or newer
-- Pillow with ImageCms support
+- Python 3.10+
+- 支持 `ImageCms` 的 Pillow
 
-Install the dependency:
+安装依赖：
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-## Use as a Codex skill
+## 作为 Codex Skill 使用
 
-Clone or copy this repository into your personal Codex skills directory under the name `comic-global-coordinate-stream`, then invoke:
+将本仓库克隆或复制到个人 Codex Skill 目录，并保持目录名为 `comic-global-coordinate-stream`，然后调用：
 
 ```text
 $comic-global-coordinate-stream
 ```
 
-Read `SKILL.md` for the complete agent workflow and `references/specification.md` for the invariants.
+完整工作流程见 `SKILL.md`，坐标和验证不变量见 `references/specification.md`。
 
-## Direct script usage
+## 直接运行脚本
 
-Build a chapter twice. The first run is expected to report `PENDING_RERUN`; the identical second run must report `PASS`.
+同一章节需要构建两次。第一次应报告 `PENDING_RERUN`；输入不变的第二次必须报告 `PASS`。
 
 ```bash
 python scripts/canonicalize_chapter.py \
@@ -60,7 +60,7 @@ python scripts/canonicalize_chapter.py \
   --view-height 12000
 ```
 
-Extract a region that may span multiple source files:
+提取可能跨越多个源文件的区域：
 
 ```bash
 python scripts/extract_global_region.py \
@@ -71,7 +71,7 @@ python scripts/extract_global_region.py \
   --output ./work/shots/shot.png
 ```
 
-Run the independent audit:
+执行独立审计：
 
 ```bash
 python scripts/audit_output.py \
@@ -79,36 +79,36 @@ python scripts/audit_output.py \
   --chapter ch_001
 ```
 
-## Test
+## 验证
 
 ```bash
 python -m unittest -v tests.test_smoke
 ```
 
-The smoke test creates synthetic images in a temporary directory, performs two canonicalization runs, and finishes with the independent pixel audit.
+测试会在临时目录中生成合成图片，连续执行两次标准化构建，最后运行独立像素审计。
 
-## Repository structure
+## 目录结构
 
 ```text
-agents/       Codex skill metadata
-assets/       Reusable configuration and gold-standard summary
-references/   Coordinate and validation contracts
-scripts/      Canonicalizer, extractor, audit, and fixture generator
-tests/        End-to-end deterministic smoke test
-SKILL.md      Codex skill instructions
+agents/       Codex Skill 元数据
+assets/       可复用配置与金标准摘要
+references/   坐标与验证契约
+scripts/      标准化、提取、审计和夹具生成脚本
+tests/        端到端确定性冒烟测试
+SKILL.md      Codex Skill 指令
 ```
 
-## Known limits
+## 已知限制
 
-- This project does not perform OCR, panel detection, plot analysis, or content selection.
-- Exact decoded-pixel comparison is intentionally conservative and may preserve uncertain duplicated rows.
-- Large chapters require enough local storage for generated scans and temporary normalized images.
-- The gold-standard summary records expected metrics but does not include copyrighted source images.
+- 本项目不执行 OCR、画格检测、剧情分析或内容选择。
+- 解码像素比较刻意采用保守策略，可能保留无法确认的重复行。
+- 大型章节需要足够空间保存扫描图和临时标准化图片。
+- 金标准摘要只记录预期指标，不包含受版权保护的漫画源图。
 
-## Provenance
+## 来源
 
-Created from a Codex-assisted workflow on 2026-08-19 and prepared as a clean public snapshot on 2026-08-27. Private inputs, generated comic images, machine-specific paths, and conversation history are not included.
+项目来自 2026-08-19 的 Codex 辅助工作流，并于 2026-08-27 整理为干净公开副本。仓库不包含私人输入、生成漫画、本机路径或对话历史。
 
-## License
+## 许可证
 
-No open-source license has been granted for this repository yet. The absence of a license means normal copyright restrictions apply.
+本仓库目前没有授予开源许可证。没有许可证意味着默认版权限制仍然有效。
