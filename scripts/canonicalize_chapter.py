@@ -294,8 +294,12 @@ def main() -> int:
     output_root = args.output_root.resolve()
     if output_root == input_dir or output_root.is_relative_to(input_dir):
         raise RuntimeError("Output root may not equal or be nested inside input")
+    chapter_dir = (output_root / "chapters" / chapter).resolve()
+    if input_dir.is_relative_to(chapter_dir):
+        raise RuntimeError("Input directory may not be inside the chapter output directory")
     numbered = discover(input_dir, extension)
-    chapter_dir = output_root / "chapters" / chapter
+    if any(path.is_relative_to(chapter_dir) for _, path in numbered):
+        raise RuntimeError("Resolved source files may not be inside the chapter output directory")
     previous = prior_hash(chapter_dir)
 
     with tempfile.TemporaryDirectory(prefix=f"comic_stream_{chapter}_") as temp_name:

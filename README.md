@@ -49,6 +49,8 @@ $comic-global-coordinate-stream
 
 同一章节需要构建两次。第一次应报告 `PENDING_RERUN`；输入不变的第二次必须报告 `PASS`。
 
+输入图片必须保存在当前章节输出目录 `output-root/chapters/<chapter>` 之外。重新构建会清理该章节的 `scans` 和索引文件；工具会在清理前拒绝与输入目录或解析后源文件重叠的布局，避免误删输入。建议把原图放在独立的 `input/` 目录。
+
 ```bash
 python scripts/canonicalize_chapter.py \
   --chapter ch_001 \
@@ -84,10 +86,10 @@ python scripts/audit_output.py \
 ## 验证
 
 ```bash
-python -m unittest -v tests.test_smoke
+python -m unittest -v tests.test_smoke tests.test_input_safety
 ```
 
-测试会在临时目录中生成合成图片，连续执行两次标准化构建，最后运行独立像素审计。
+测试会在临时目录中生成合成图片，连续执行两次标准化构建，最后运行独立像素审计。输入安全测试还验证：章节输出目录、`scans` 及其子目录内的输入会被提前拒绝，源图片和已有输出逐字节保持不变；输出根目录下其他位置的输入仍可正常构建。
 
 ## 目录结构
 
